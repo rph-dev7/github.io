@@ -1,17 +1,14 @@
 <!doctype html>
 <html lang="pt-BR" class="h-full">
-<head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-
-<title>Raphael Alves | Portfólio</title>
-
-<script src="https://cdn.tailwindcss.com/3.4.17"></script>
-<script src="https://cdn.jsdelivr.net/npm/lucide@0.263.0/dist/umd/lucide.min.js"></script>
-
-<link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;600;700&family=Outfit:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
-
-<script>
+ <head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Raphael Alves | Portfólio</title>
+  <script src="https://cdn.tailwindcss.com/3.4.17"></script>
+  <script src="https://cdn.jsdelivr.net/npm/lucide@0.263.0/dist/umd/lucide.min.js"></script>
+  <script src="/_sdk/element_sdk.js"></script>
+  <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;600;700&amp;family=Outfit:wght@300;400;500;600;700;800&amp;display=swap" rel="stylesheet">
+  <script>
 tailwind.config = {
   theme: {
     extend: {
@@ -23,123 +20,504 @@ tailwind.config = {
   }
 }
 </script>
-
-<style>
+  <style>
 html { scroll-behavior: smooth; }
 body { font-family: 'Outfit', sans-serif; }
-
-@keyframes fadeUp {
-  from { opacity:0; transform:translateY(30px); }
-  to { opacity:1; transform:translateY(0); }
-}
-
+.mono { font-family: 'JetBrains Mono', monospace; }
+@keyframes fadeUp { from { opacity:0; transform:translateY(30px); } to { opacity:1; transform:translateY(0); } }
+@keyframes slideRight { from { opacity:0; transform:translateX(-40px); } to { opacity:1; transform:translateX(0); } }
+@keyframes pulse-glow { 0%,100% { box-shadow: 0 0 20px rgba(245,197,24,0.15); } 50% { box-shadow: 0 0 40px rgba(245,197,24,0.3); } }
 .anim-up { animation: fadeUp 0.7s ease both; }
-
-.card-hover:hover {
-  transform: translateY(-6px);
-  border-color: #F5C518;
-}
-
-.nav-link::after {
-  content:'';
-  position:absolute;
-  bottom:-2px;
-  left:0;
-  width:0;
-  height:2px;
-  background:#F5C518;
-  transition:width 0.3s;
-}
-
-.nav-link:hover::after {
-  width:100%;
-}
+.anim-up-d1 { animation: fadeUp 0.7s 0.1s ease both; }
+.anim-up-d2 { animation: fadeUp 0.7s 0.2s ease both; }
+.anim-up-d3 { animation: fadeUp 0.7s 0.3s ease both; }
+.anim-up-d4 { animation: fadeUp 0.7s 0.4s ease both; }
+.anim-slide { animation: slideRight 0.8s ease both; }
+.glow { animation: pulse-glow 3s infinite; }
+.skill-bar { transition: width 1.2s cubic-bezier(0.25,0.46,0.45,0.94); }
+.card-hover { transition: all 0.3s ease; }
+.card-hover:hover { transform: translateY(-6px); border-color: #F5C518; }
+.nav-link { position: relative; }
+.nav-link::after { content:''; position:absolute; bottom:-2px; left:0; width:0; height:2px; background:#F5C518; transition:width 0.3s; }
+.nav-link:hover::after { width:100%; }
+.timeline-dot { width:14px; height:14px; border:3px solid #F5C518; background:#0a0a0a; border-radius:50%; position:absolute; left:-7px; top:6px; }
+::-webkit-scrollbar { width:6px; }
+::-webkit-scrollbar-track { background:#0a0a0a; }
+::-webkit-scrollbar-thumb { background:#333; border-radius:3px; }
 </style>
-</head>
+  <style>body { box-sizing: border-box; }</style>
+  <script src="/_sdk/data_sdk.js" type="text/javascript"></script>
+ </head>
+ <body class="h-full bg-dark-900 text-gray-300">
+  <div id="app-wrapper" class="w-full h-full overflow-auto"><!-- NAV -->
+   <nav id="navbar" class="fixed top-0 left-0 w-full z-50 bg-dark-900/90 backdrop-blur-md border-b border-gray-800/50 transition-all duration-300">
+    <div class="max-w-6xl mx-auto px-6 py-4 flex items-center justify-between"><a href="#top" class="text-xl font-bold text-white tracking-tight"> <span class="text-accent">&lt;</span><span id="nav-name">Raphael Alves</span><span class="text-accent"> /&gt;</span> </a>
+     <div class="hidden md:flex items-center gap-8 text-sm font-medium"><a href="#sobre" class="nav-link text-gray-400 hover:text-accent transition">Sobre Mim</a> <a href="#experiencia" class="nav-link text-gray-400 hover:text-accent transition">Experiência</a> <a href="#projetos" class="nav-link text-gray-400 hover:text-accent transition">Projetos</a> <a href="#habilidades" class="nav-link text-gray-400 hover:text-accent transition">Habilidades</a> <a href="#contato" class="nav-link text-gray-400 hover:text-accent transition">Contato</a>
+     </div><button id="mobile-btn" class="md:hidden text-gray-400 hover:text-accent" aria-label="Menu"> <i data-lucide="menu" style="width:24px;height:24px"></i> </button>
+    </div>
+    <div id="mobile-menu" class="hidden md:hidden px-6 pb-4 flex flex-col gap-3 text-sm font-medium"><a href="#sobre" class="text-gray-400 hover:text-accent transition py-1">Sobre Mim</a> <a href="#experiencia" class="text-gray-400 hover:text-accent transition py-1">Experiência</a> <a href="#projetos" class="text-gray-400 hover:text-accent transition py-1">Projetos</a> <a href="#habilidades" class="text-gray-400 hover:text-accent transition py-1">Habilidades</a> <a href="#contato" class="text-gray-400 hover:text-accent transition py-1">Contato</a>
+    </div>
+   </nav><!-- HERO -->
+   <header id="top" class="pt-28 pb-20 px-6">
+    <div class="max-w-6xl mx-auto flex flex-col md:flex-row items-center gap-12">
+     <div class="relative anim-slide flex-shrink-0">
+      <div class="w-56 h-56 md:w-64 md:h-64 rounded-2xl bg-gradient-to-br from-accent/20 to-dark-700 p-1 glow">
+       <div class="w-full h-full rounded-2xl bg-dark-700 flex items-center justify-center overflow-hidden">
+        <img id="profile-img" src="foto/perfil.jpg" alt="Raphael Alves" class="w-full h-full object-cover" loading="lazy" onerror="console.error('Imagem indisponível'); this.style.background='linear-gradient(to bottom right, rgba(245,197,24,0.2), rgba(26,26,26,1))'; this.alt='Foto de perfil';">
+       </div>
+      </div>
+      <div class="absolute -bottom-3 -right-3 bg-accent text-dark-900 text-xs font-bold mono px-3 py-1 rounded-lg">
+       OPEN TO PROJECTS
+      </div>
+     </div>
+     <div class="text-center md:text-left">
+      <p class="mono text-accent text-sm mb-3 anim-up">// portfólio profissional</p>
+      <h1 id="hero-title" class="text-4xl md:text-6xl font-extrabold text-white leading-tight anim-up-d1">Raphael<br><span class="text-accent">Alves</span></h1>
+      <p id="hero-subtitle" class="text-lg md:text-xl text-gray-400 mt-4 max-w-lg anim-up-d2">Tecnologia • Análise de Dados • Gestão de Processos</p>
+      <div class="flex flex-wrap gap-3 mt-6 justify-center md:justify-start anim-up-d3"><a href="https://www.linkedin.com/in/raphael-alves-2b3380132/" target="_blank" rel="noopener noreferrer" class="flex items-center gap-2 bg-dark-600 hover:bg-dark-700 border border-gray-700 hover:border-accent text-gray-300 hover:text-accent px-4 py-2 rounded-lg text-sm transition"> <i data-lucide="linkedin" style="width:16px;height:16px"></i> LinkedIn </a> <a href="https://github.com/rph-dev7" target="_blank" rel="noopener noreferrer" class="flex items-center gap-2 bg-dark-600 hover:bg-dark-700 border border-gray-700 hover:border-accent text-gray-300 hover:text-accent px-4 py-2 rounded-lg text-sm transition"> <i data-lucide="github" style="width:16px;height:16px"></i> GitHub </a> <button id="exp-btn" class="flex items-center gap-2 bg-dark-600 hover:bg-dark-700 border border-gray-700 hover:border-accent text-gray-300 hover:text-accent px-4 py-2 rounded-lg text-sm transition"> <i data-lucide="file-text" style="width:16px;height:16px"></i> Experiência Profissional </button> <a href="https://wa.me/5500000000000" target="_blank" rel="noopener noreferrer" id="hero-whatsapp" class="flex items-center gap-2 bg-accent hover:bg-yellow-400 text-dark-900 font-semibold px-4 py-2 rounded-lg text-sm transition"> <i data-lucide="message-circle" style="width:16px;height:16px"></i> WhatsApp </a>
+      </div>
+     </div>
+    </div>
+   </header><!-- SOBRE MIM -->
+   <section id="sobre" class="py-20 px-6 bg-dark-800/50">
+    <div class="max-w-6xl mx-auto">
+     <div class="flex items-center gap-3 mb-10">
+      <h2 class="text-3xl font-bold text-white">Sobre Mim</h2>
+      <div class="flex-1 h-px bg-gray-800 ml-4"></div>
+     </div>
+     <div class="grid md:grid-cols-2 gap-10 items-start">
+      <div id="about-text-block" class="space-y-4 text-gray-400 leading-relaxed">
+       <p>Experiência diversificada em <span class="text-white font-medium">suporte administrativo, gestão de processos e liderança de equipes</span>, com histórico de atuação nos setores automotivo, logístico e comercial.</p>
+       <p>Atuei como <span class="text-accent font-medium">gerente de loja de veículos</span>, conduzindo negociações e organizando rotinas administrativas. Também como <span class="text-accent font-medium">encarregado de transporte</span>, com responsabilidades em planejamento de rotas, acompanhamento de motoristas, aquisição de serviços e relacionamento com clientes nos modelos B2B e B2C.</p>
+       <p>Domínio de <span class="text-white font-medium">Excel, Pacote Office/Google Workspace</span>, elaboração de relatórios, análise de dados, edição de imagens e gestão de redes sociais.</p>
+       <p>Atualmente cursando <span class="text-accent font-medium">Análise e Desenvolvimento de Sistemas</span>, adquirindo competências em programação, banco de dados e automação de processos, com foco em integrar tecnologia à gestão de negócios, vendas e logística.</p>
+       <p>Perfil <span class="text-white font-medium">dinâmico, adaptável e orientado a resultados</span>, com facilidade para aprender e aplicar novos conhecimentos em diferentes áreas.</p>
+      </div>
+      <div class="bg-dark-700 border border-gray-800 rounded-xl p-6 mono text-sm">
+       <div class="flex items-center gap-2 mb-4">
+        <div class="w-3 h-3 rounded-full bg-red-500/80"></div>
+        <div class="w-3 h-3 rounded-full bg-yellow-500/80"></div>
+        <div class="w-3 h-3 rounded-full bg-green-500/80"></div><span class="text-gray-600 text-xs ml-2">perfil.json</span>
+       </div>
+       <pre class="text-gray-400 overflow-x-auto"><code>{
+  <span class="text-accent">"nome"</span>: <span class="text-green-400">"Raphael Alves"</span>,
+  <span class="text-accent">"formação"</span>: <span class="text-green-400">"ADS"</span>,
+  <span class="text-accent">"foco"</span>: [
+    <span class="text-green-400">"Análise de Dados"</span>,
+    <span class="text-green-400">"Automação"</span>,
+    <span class="text-green-400">"Gestão de Processos"</span>
+  ],
+  <span class="text-accent">"disponível"</span>: <span class="text-blue-400">true</span>
+}</code></pre>
+      </div>
+     </div>
+    </div>
+   </section><!-- EXPERIÊNCIA -->
+   <section id="experiencia" class="py-20 px-6">
+    <div class="max-w-6xl mx-auto">
+     <div class="flex items-center gap-3 mb-12">
+      <h2 class="text-3xl font-bold text-white">Experiência</h2>
+      <div class="flex-1 h-px bg-gray-800 ml-4"></div>
+     </div>
+     <div class="relative border-l-2 border-gray-800 ml-4 md:ml-8 space-y-10">
+      <div class="relative pl-8">
+       <div class="timeline-dot"></div>
+       <div class="bg-dark-700 border border-gray-800 rounded-xl p-6 card-hover">
+        <div class="flex flex-wrap items-center gap-3 mb-2">
+         <h3 class="text-white font-bold text-lg">Gerente de Loja — Veículos</h3><span class="mono text-xs text-accent bg-accent/10 px-2 py-1 rounded">Liderança</span>
+        </div>
+        <p class="text-gray-400 text-sm">Gestão completa da operação comercial, incluindo atendimento ao cliente, negociação, controle de estoque e coordenação de equipe. Responsável por metas de vendas e relacionamento com clientes.</p>
+       </div>
+      </div>
+      <div class="relative pl-8">
+       <div class="timeline-dot"></div>
+       <div class="bg-dark-700 border border-gray-800 rounded-xl p-6 card-hover">
+        <div class="flex flex-wrap items-center gap-3 mb-2">
+         <h3 class="text-white font-bold text-lg">Gestão de Clientes e Processos</h3><span class="mono text-xs text-accent bg-accent/10 px-2 py-1 rounded">Comercial</span>
+        </div>
+        <p class="text-gray-400 text-sm">Organização e acompanhamento de processos comerciais, funil de vendas, cadastro de clientes e controle de documentação. Foco em eficiência e organização de dados.</p>
+       </div>
+      </div>
+      <div class="relative pl-8">
+       <div class="timeline-dot"></div>
+       <div class="bg-dark-700 border border-gray-800 rounded-xl p-6 card-hover">
+        <div class="flex flex-wrap items-center gap-3 mb-2">
+         <h3 class="text-white font-bold text-lg">Rotinas Administrativas</h3><span class="mono text-xs text-accent bg-accent/10 px-2 py-1 rounded">Organização</span>
+        </div>
+        <p class="text-gray-400 text-sm">Planejamento e controle de atividades administrativas, relatórios de desempenho, análise de indicadores e otimização de processos internos.</p>
+       </div>
+      </div>
+     </div>
+    </div>
+   </section><!-- PROJETOS -->
+   <section id="projetos" class="py-20 px-6 bg-dark-800/50">
+    <div class="max-w-6xl mx-auto">
+     <div class="flex items-center gap-3 mb-12">
+      <h2 class="text-3xl font-bold text-white">Projetos</h2>
+      <div class="flex-1 h-px bg-gray-800 ml-4"></div>
+     </div>
+     <div class="grid md:grid-cols-2 gap-6"><!-- CRM -->
+      <div class="bg-dark-700 border border-gray-800 rounded-xl p-6 card-hover group">
+       <div class="flex items-center justify-between mb-4">
+        <div class="w-12 h-12 rounded-lg bg-accent/10 flex items-center justify-center"><i data-lucide="users" style="width:24px;height:24px" class="text-accent"></i>
+        </div><i data-lucide="external-link" style="width:18px;height:18px" class="text-gray-600 group-hover:text-accent transition"></i>
+       </div>
+       <h3 class="text-white font-bold text-lg mb-2">CRM Express</h3>
+       <p class="text-gray-400 text-sm leading-relaxed">Sistema de gestão de clientes com funil de vendas estruturado, permitindo acompanhamento de leads, negociações e conversões.</p>
+       <div class="flex gap-2 mt-4 flex-wrap"><span class="text-xs mono text-accent/70 bg-accent/5 px-2 py-1 rounded">Excel</span> <span class="text-xs mono text-accent/70 bg-accent/5 px-2 py-1 rounded">CRM</span> <span class="text-xs mono text-accent/70 bg-accent/5 px-2 py-1 rounded">Vendas</span>
+       </div>
+      </div><!-- Monitoramento -->
+      <div class="bg-dark-700 border border-gray-800 rounded-xl p-6 card-hover group">
+       <div class="flex items-center justify-between mb-4">
+        <div class="w-12 h-12 rounded-lg bg-accent/10 flex items-center justify-center"><i data-lucide="wifi" style="width:24px;height:24px" class="text-accent"></i>
+        </div><i data-lucide="external-link" style="width:18px;height:18px" class="text-gray-600 group-hover:text-accent transition"></i>
+       </div>
+       <h3 class="text-white font-bold text-lg mb-2">Monitor de Internet</h3>
+       <p class="text-gray-400 text-sm leading-relaxed">Sistema que monitora ping, latência, download e upload em tempo real, gerando logs e gráficos para análise de estabilidade de conexão.</p>
+       <div class="flex gap-2 mt-4 flex-wrap"><span class="text-xs mono text-accent/70 bg-accent/5 px-2 py-1 rounded">Python</span> <span class="text-xs mono text-accent/70 bg-accent/5 px-2 py-1 rounded">Rede</span> <span class="text-xs mono text-accent/70 bg-accent/5 px-2 py-1 rounded">Gráficos</span>
+       </div>
+      </div><!-- Relatórios -->
+      <div class="bg-dark-700 border border-gray-800 rounded-xl p-6 card-hover group">
+       <div class="flex items-center justify-between mb-4">
+        <div class="w-12 h-12 rounded-lg bg-accent/10 flex items-center justify-center"><i data-lucide="bar-chart-3" style="width:24px;height:24px" class="text-accent"></i>
+        </div><i data-lucide="external-link" style="width:18px;height:18px" class="text-gray-600 group-hover:text-accent transition"></i>
+       </div>
+       <h3 class="text-white font-bold text-lg mb-2">Relatórios Automatizados</h3>
+       <p class="text-gray-400 text-sm leading-relaxed">Controle de atividades e produtividade com organização inteligente de dados, gerando relatórios automáticos para tomada de decisão.</p>
+       <div class="flex gap-2 mt-4 flex-wrap"><span class="text-xs mono text-accent/70 bg-accent/5 px-2 py-1 rounded">Automação</span> <span class="text-xs mono text-accent/70 bg-accent/5 px-2 py-1 rounded">Dados</span> <span class="text-xs mono text-accent/70 bg-accent/5 px-2 py-1 rounded">KPIs</span>
+       </div>
+      </div><!-- Planilhas -->
+      <div class="bg-dark-700 border border-gray-800 rounded-xl p-6 card-hover group">
+       <div class="flex items-center justify-between mb-4">
+        <div class="w-12 h-12 rounded-lg bg-accent/10 flex items-center justify-center"><i data-lucide="table" style="width:24px;height:24px" class="text-accent"></i>
+        </div><i data-lucide="external-link" style="width:18px;height:18px" class="text-gray-600 group-hover:text-accent transition"></i>
+       </div>
+       <h3 class="text-white font-bold text-lg mb-2">Planilhas Inteligentes</h3>
+       <p class="text-gray-400 text-sm leading-relaxed">Automação de controle de vendas, clientes e dados com fórmulas avançadas, dashboards e organização visual para gestão eficiente.</p>
+       <div class="flex gap-2 mt-4 flex-wrap"><span class="text-xs mono text-accent/70 bg-accent/5 px-2 py-1 rounded">Sheets</span> <span class="text-xs mono text-accent/70 bg-accent/5 px-2 py-1 rounded">Dashboard</span> <span class="text-xs mono text-accent/70 bg-accent/5 px-2 py-1 rounded">VBA</span>
+       </div>
+      </div>
+     </div>
+    </div>
+   </section><!-- HABILIDADES -->
+   <section id="habilidades" class="py-20 px-6">
+    <div class="max-w-6xl mx-auto">
+     <div class="flex items-center gap-3 mb-12">
+      <h2 class="text-3xl font-bold text-white">Habilidades</h2>
+      <div class="flex-1 h-px bg-gray-800 ml-4"></div>
+     </div>
+     <div class="grid md:grid-cols-2 gap-6" id="skills-container">
+      <div class="space-y-5">
+       <div>
+        <div class="flex justify-between mb-2">
+         <span class="text-white font-medium text-sm">Liderança de Equipes</span><span class="mono text-accent text-xs">95%</span>
+        </div>
+        <div class="h-2 bg-dark-700 rounded-full overflow-hidden">
+         <div class="skill-bar h-full bg-gradient-to-r from-accent to-yellow-300 rounded-full" data-width="95" style="width:0%"></div>
+        </div>
+       </div>
+       <div>
+        <div class="flex justify-between mb-2">
+         <span class="text-white font-medium text-sm">Organização de Dados</span><span class="mono text-accent text-xs">90%</span>
+        </div>
+        <div class="h-2 bg-dark-700 rounded-full overflow-hidden">
+         <div class="skill-bar h-full bg-gradient-to-r from-accent to-yellow-300 rounded-full" data-width="90" style="width:0%"></div>
+        </div>
+       </div>
+       <div>
+        <div class="flex justify-between mb-2">
+         <span class="text-white font-medium text-sm">Atendimento ao Cliente</span><span class="mono text-accent text-xs">92%</span>
+        </div>
+        <div class="h-2 bg-dark-700 rounded-full overflow-hidden">
+         <div class="skill-bar h-full bg-gradient-to-r from-accent to-yellow-300 rounded-full" data-width="92" style="width:0%"></div>
+        </div>
+       </div>
+      </div>
+      <div class="space-y-5">
+       <div>
+        <div class="flex justify-between mb-2">
+         <span class="text-white font-medium text-sm">Vendas e Negociação</span><span class="mono text-accent text-xs">88%</span>
+        </div>
+        <div class="h-2 bg-dark-700 rounded-full overflow-hidden">
+         <div class="skill-bar h-full bg-gradient-to-r from-accent to-yellow-300 rounded-full" data-width="88" style="width:0%"></div>
+        </div>
+       </div>
+       <div>
+        <div class="flex justify-between mb-2">
+         <span class="text-white font-medium text-sm">Lógica de Programação</span><span class="mono text-accent text-xs">75%</span>
+        </div>
+        <div class="h-2 bg-dark-700 rounded-full overflow-hidden">
+         <div class="skill-bar h-full bg-gradient-to-r from-accent to-yellow-300 rounded-full" data-width="75" style="width:0%"></div>
+        </div>
+       </div>
+       <div>
+        <div class="flex justify-between mb-2">
+         <span class="text-white font-medium text-sm">Automação de Processos</span><span class="mono text-accent text-xs">82%</span>
+        </div>
+        <div class="h-2 bg-dark-700 rounded-full overflow-hidden">
+         <div class="skill-bar h-full bg-gradient-to-r from-accent to-yellow-300 rounded-full" data-width="82" style="width:0%"></div>
+        </div>
+       </div>
+      </div>
+     </div>
+    </div>
+   </section><!-- CONTATO -->
+   <section id="contato" class="py-20 px-6 bg-dark-800/50">
+    <div class="max-w-6xl mx-auto text-center">
+     <div class="flex items-center justify-center gap-3 mb-10">
+      <h2 class="text-3xl font-bold text-white">Contato</h2>
+     </div>
+     <p class="text-gray-400 max-w-md mx-auto mb-8">Estou disponível para oportunidades na área de tecnologia, suporte, análise de dados e processos. Vamos conversar!</p>
+     <div class="flex flex-col sm:flex-row gap-4 justify-center"><a href="https://wa.me/5500000000000" target="_blank" rel="noopener noreferrer" id="contact-whatsapp" class="flex items-center justify-center gap-3 bg-accent hover:bg-yellow-400 text-dark-900 font-bold px-8 py-4 rounded-xl text-lg transition transform hover:scale-105"> <i data-lucide="message-circle" style="width:22px;height:22px"></i> <span>WhatsApp</span> </a> <a href="mailto:raphael.alves.lg@gmail.com" id="contact-email-link" class="flex items-center justify-center gap-3 bg-dark-600 hover:bg-dark-700 border-2 border-accent text-accent font-bold px-8 py-4 rounded-xl text-lg transition transform hover:scale-105"> <i data-lucide="mail" style="width:22px;height:22px"></i> <span id="contact-email-text">raphael.alves.lg@gmail.com</span> </a>
+     </div>
+    </div>
+   </section><!-- FOOTER -->
+   <footer class="py-8 px-6 border-t border-gray-800/50">
+    <div class="max-w-6xl mx-auto flex flex-col md:flex-row items-center justify-between gap-4 text-sm text-gray-600">
+     <p>© 2025 Raphael Alves. Todos os direitos reservados.</p>
+     <div class="flex gap-4"><a href="https://www.linkedin.com/in/raphael-alves-2b3380132/" target="_blank" rel="noopener noreferrer" class="hover:text-accent transition"><i data-lucide="linkedin" style="width:18px;height:18px"></i></a> <a href="https://github.com/rph-dev7" target="_blank" rel="noopener noreferrer" class="hover:text-accent transition"><i data-lucide="github" style="width:18px;height:18px"></i></a> <a href="mailto:raphael.alves.lg@gmail.com" class="hover:text-accent transition"><i data-lucide="mail" style="width:18px;height:18px"></i></a>
+     </div>
+    </div>
+   </footer>
+  </div><!-- MODAL EXPERIÊNCIA PROFISSIONAL -->
+  <div id="exp-modal" class="hidden fixed inset-0 bg-black/80 z-50 flex items-center justify-center p-4 overflow-y-auto">
+   <div class="bg-dark-800 border border-gray-800 rounded-xl w-full max-w-4xl my-8"><!-- Header -->
+    <div class="sticky top-0 bg-dark-800 border-b border-gray-800 px-6 py-4 flex items-center justify-between">
+     <h2 class="text-2xl font-bold text-white">Experiência Profissional</h2><button id="close-modal" class="text-gray-400 hover:text-accent transition"> <i data-lucide="x" style="width:24px;height:24px"></i> </button>
+    </div><!-- Content -->
+    <div class="px-6 py-8 space-y-8 max-h-[calc(100vh-200px)] overflow-y-auto"><!-- FORMAÇÃO ACADÊMICA -->
+     <div>
+      <h3 class="text-xl font-bold text-accent mb-4 flex items-center gap-2"><i data-lucide="graduation-cap" style="width:20px;height:20px"></i> FORMAÇÃO ACADÊMICA</h3>
+      <ul class="space-y-3 text-gray-400">
+       <li class="flex gap-3"><span class="text-accent">●</span> <span><span class="text-white font-medium">Técnico em Administração</span> — Fundação Rede Amazônica (2016)</span></li>
+       <li class="flex gap-3"><span class="text-accent">●</span> <span><span class="text-white font-medium">Análise e Desenvolvimento de Sistemas</span> — Uninter (em andamento)</span></li>
+      </ul>
+     </div><!-- EXPERIÊNCIA PROFISSIONAL -->
+     <div>
+      <h3 class="text-xl font-bold text-accent mb-6 flex items-center gap-2"><i data-lucide="briefcase" style="width:20px;height:20px"></i> EXPERIÊNCIA PROFISSIONAL</h3>
+      <div class="space-y-8"><!-- XCAR -->
+       <div class="bg-dark-700 rounded-lg p-5 border border-gray-700">
+        <div class="flex items-start justify-between mb-3">
+         <div>
+          <h4 class="text-lg font-bold text-white">XCAR Multimarcas</h4>
+          <p class="text-sm text-accent font-medium">Gerente Administrativo</p>
+         </div><span class="mono text-xs bg-accent/10 text-accent px-3 py-1 rounded">2023 - 2025</span>
+        </div>
+        <p class="text-xs text-gray-500 mb-3">Prestação de Serviço</p>
+        <ul class="space-y-2 text-sm text-gray-400">
+         <li class="flex gap-3"><span class="text-accent mt-1">○</span> <span><span class="text-white font-medium">Gestão Administrativa:</span> Responsável por todas as atividades administrativas da empresa, incluindo organização e controle de documentos, elaboração de relatórios financeiros e operacionais, e gestão do fluxo de trabalho diário.</span></li>
+         <li class="flex gap-3"><span class="text-accent mt-1">○</span> <span><span class="text-white font-medium">Gestão de Vendas e Processos:</span> Realização de vendas de veículos, incluindo negociação com clientes, acompanhamento do processo de financiamento, documentação e entrega dos veículos, garantindo conformidade com normas legais e satisfação dos clientes.</span></li>
+         <li class="flex gap-3"><span class="text-accent mt-1">○</span> <span><span class="text-white font-medium">Marketing e Divulgação:</span> Planejamento e execução de campanhas promocionais, com foco em aumentar visibilidade da marca através de redes sociais e plataformas digitais. Desenvolvimento de estratégias para atrair novos clientes e melhorar engajamento.</span></li>
+        </ul>
+       </div><!-- PARK MOTORS -->
+       <div class="bg-dark-700 rounded-lg p-5 border border-gray-700">
+        <div class="flex items-start justify-between mb-3">
+         <div>
+          <h4 class="text-lg font-bold text-white">PARK MOTORS – P.S. Coutinho Comércio</h4>
+          <p class="text-sm text-accent font-medium">Gerente Administrativo</p>
+         </div><span class="mono text-xs bg-accent/10 text-accent px-3 py-1 rounded">2021 - 2023</span>
+        </div>
+        <ul class="space-y-2 text-sm text-gray-400">
+         <li class="flex gap-3"><span class="text-accent mt-1">○</span> <span><span class="text-white font-medium">Gestão Administrativa:</span> Coordenação de todos os processos administrativos, incluindo controle de fluxo de caixa, elaboração de relatórios financeiros e operacionais, e organização de documentos e processos internos.</span></li>
+         <li class="flex gap-3"><span class="text-accent mt-1">○</span> <span><span class="text-white font-medium">Vendas de Veículos:</span> Realização de vendas diretas de veículos, negociação de preços, financiamento, acompanhamento de documentação e garantia de entrega conforme prazo estabelecido.</span></li>
+         <li class="flex gap-3"><span class="text-accent mt-1">○</span> <span><span class="text-white font-medium">Marketing e Promoção:</span> Criação e gestão de estratégias de marketing focadas em aumentar presença online. Gestão de campanhas nas redes sociais, análise de desempenho e ajustes conforme necessário.</span></li>
+        </ul>
+       </div><!-- MILLENIUM TRANSPORTES -->
+       <div class="bg-dark-700 rounded-lg p-5 border border-gray-700">
+        <div class="flex items-start justify-between mb-3">
+         <div>
+          <h4 class="text-lg font-bold text-white">Millenium Transportes</h4>
+          <p class="text-sm text-accent font-medium">Encarregado de Transporte</p>
+         </div><span class="mono text-xs bg-accent/10 text-accent px-3 py-1 rounded">2018 - 2020</span>
+        </div>
+        <ul class="space-y-2 text-sm text-gray-400">
+         <li class="flex gap-3"><span class="text-accent mt-1">○</span> <span><span class="text-white font-medium">Gestão Operacional:</span> Coordenação e controle de todas as operações logísticas de transporte, incluindo planejamento de rotas, controle de custos operacionais e monitoramento de desempenho dos motoristas.</span></li>
+         <li class="flex gap-3"><span class="text-accent mt-1">○</span> <span><span class="text-white font-medium">Gestão de Conformidade:</span> Garantia de que operações estivessem dentro das normas de segurança e regulamentações do setor, com foco em redução de riscos e otimização de processos.</span></li>
+        </ul>
+       </div><!-- M.M.T LEAL -->
+       <div class="bg-dark-700 rounded-lg p-5 border border-gray-700">
+        <div class="flex items-start justify-between mb-3">
+         <div>
+          <h4 class="text-lg font-bold text-white">M.M.T Leal – Real Tapeçaria</h4>
+          <p class="text-sm text-accent font-medium">Vendedor</p>
+         </div><span class="mono text-xs bg-accent/10 text-accent px-3 py-1 rounded">2012</span>
+        </div>
+        <ul class="space-y-2 text-sm text-gray-400">
+         <li class="flex gap-3"><span class="text-accent mt-1">○</span> <span><span class="text-white font-medium">Atendimento ao Cliente e Vendas:</span> Realização de vendas, atendimento personalizado, identificação de necessidades dos clientes e garantia de excelente serviço pós-venda.</span></li>
+         <li class="flex gap-3"><span class="text-accent mt-1">○</span> <span><span class="text-white font-medium">Gestão de Estoque:</span> Organização e controle do estoque, acompanhamento de pedidos e coordenação da entrega dos produtos aos clientes.</span></li>
+        </ul>
+       </div>
+      </div>
+     </div><!-- QUALIFICAÇÕES -->
+     <div>
+      <h3 class="text-xl font-bold text-accent mb-4 flex items-center gap-2"><i data-lucide="award" style="width:20px;height:20px"></i> QUALIFICAÇÕES E CURSOS COMPLEMENTARES</h3>
+      <div class="grid md:grid-cols-2 gap-3">
+       <div class="flex gap-3 text-sm text-gray-400"><span class="text-accent">●</span> <span>Informática Avançada — CETAM (2016)</span>
+       </div>
+       <div class="flex gap-3 text-sm text-gray-400"><span class="text-accent">●</span> <span>Fundamentos de Logística — SENAI (2016)</span>
+       </div>
+       <div class="flex gap-3 text-sm text-gray-400"><span class="text-accent">●</span> <span>Mecânica Básica — SENAI (2016)</span>
+       </div>
+       <div class="flex gap-3 text-sm text-gray-400"><span class="text-accent">●</span> <span>Tecnologia da Informação e Comunicação — SENAI (2016)</span>
+       </div>
+       <div class="flex gap-3 text-sm text-gray-400"><span class="text-accent">●</span> <span>Rotinas Administrativas — SENAC (2021)</span>
+       </div>
+       <div class="flex gap-3 text-sm text-gray-400"><span class="text-accent">●</span> <span>Marketing Digital — RD University (2025)</span>
+       </div>
+      </div>
+     </div>
+    </div><!-- Footer -->
+    <div class="sticky bottom-0 bg-dark-800 border-t border-gray-800 px-6 py-4 flex justify-end gap-3"><button id="close-modal-btn" class="bg-dark-600 hover:bg-dark-700 border border-gray-700 text-gray-300 hover:text-accent px-6 py-2 rounded-lg transition"> Fechar </button>
+    </div>
+   </div>
+  </div>
+  <script>
+// Default config
+const defaultConfig = {
+  background_color: '#0a0a0a',
+  surface_color: '#1a1a1a',
+  text_color: '#d1d5db',
+  accent_color: '#F5C518',
+  secondary_action_color: '#374151',
+  font_family: 'Outfit',
+  font_size: 16,
+  hero_title: 'Raphael Alves',
+  hero_subtitle: 'Tecnologia • Análise de Dados • Gestão de Processos',
+  profile_image: 'https://via.placeholder.com/300/1a1a1a/F5C518?text=RA',
+  about_text: '',
+  contact_email: 'raphael.alves.lg@gmail.com',
+  contact_whatsapp: '5592981254975'
+};
 
-<body class="h-full bg-dark-900 text-gray-300">
+function applyConfig(config) {
+  const c = key => config[key] || defaultConfig[key];
+  const font = c('font_family');
+  const baseSize = c('font_size');
+  const accent = c('accent_color');
+  const bg = c('background_color');
+  const surface = c('surface_color');
+  const textCol = c('text_color');
 
-<!-- NAV -->
-<nav class="fixed top-0 w-full bg-dark-900 border-b border-gray-800 z-50">
-<div class="max-w-6xl mx-auto px-6 py-4 flex justify-between items-center">
+  document.body.style.fontFamily = `${font}, Outfit, sans-serif`;
+  document.body.style.fontSize = `${baseSize}px`;
+  document.body.style.backgroundColor = bg;
+  document.body.style.color = textCol;
 
-<h1 class="text-white font-bold">
-<span class="text-accent">&lt;</span> Raphael Alves <span class="text-accent">/&gt;</span>
-</h1>
+  const heroTitle = document.getElementById('hero-title');
+  if (heroTitle) {
+    const name = c('hero_title');
+    const parts = name.split(' ');
+    heroTitle.innerHTML = parts.length > 1
+      ? `${parts[0]}<br><span class="text-accent">${parts.slice(1).join(' ')}</span>`
+      : `<span class="text-accent">${name}</span>`;
+    heroTitle.style.fontSize = `${baseSize * 3}px`;
+  }
 
-<div class="hidden md:flex gap-6 text-sm">
-<a href="#sobre" class="nav-link text-gray-400 hover:text-accent">Sobre</a>
-<a href="#contato" class="nav-link text-gray-400 hover:text-accent">Contato</a>
-</div>
+  const subtitle = document.getElementById('hero-subtitle');
+  if (subtitle) {
+    subtitle.textContent = c('hero_subtitle');
+    subtitle.style.fontSize = `${baseSize * 1.2}px`;
+  }
 
-</div>
-</nav>
+  const profileImg = document.getElementById('profile-img');
+  if (profileImg) profileImg.src = c('profile_image');
 
-<!-- HERO -->
-<header class="pt-32 pb-20 text-center">
+  const emailText = document.getElementById('contact-email-text');
+  const emailLink = document.getElementById('contact-email-link');
+  if (emailText) emailText.textContent = c('contact_email');
+  if (emailLink) emailLink.href = `mailto:${c('contact_email')}`;
 
-<div class="w-56 h-56 mx-auto rounded-2xl overflow-hidden border-2 border-accent mb-6">
-<img src="foto.jpg" alt="Raphael Alves" class="w-full h-full object-cover">
-</div>
+  const wp = c('contact_whatsapp').replace(/\D/g, '');
+  const wpUrl = `https://wa.me/${wp}`;
+  document.querySelectorAll('[id*="whatsapp"]').forEach(el => {
+    if (el.href !== undefined) el.href = wpUrl;
+  });
 
-<h1 class="text-4xl md:text-6xl font-bold text-white anim-up">
-Raphael <span class="text-accent">Alves</span>
-</h1>
+  // Apply accent color to CSS
+  document.documentElement.style.setProperty('--accent', accent);
+}
 
-<p class="text-gray-400 mt-4">
-Tecnologia • Análise de Dados • Gestão de Processos
-</p>
+// Mobile menu
+document.getElementById('mobile-btn').addEventListener('click', () => {
+  document.getElementById('mobile-menu').classList.toggle('hidden');
+});
+document.querySelectorAll('#mobile-menu a').forEach(a => {
+  a.addEventListener('click', () => document.getElementById('mobile-menu').classList.add('hidden'));
+});
 
-<div class="flex justify-center gap-4 mt-6">
+// Modal de Experiência
+const modal = document.getElementById('exp-modal');
+const expBtn = document.getElementById('exp-btn');
+const closeBtn = document.getElementById('close-modal');
+const closeModalBtn = document.getElementById('close-modal-btn');
 
-<a href="https://www.linkedin.com/in/raphael-alves-2b3380132/" target="_blank" class="border px-4 py-2 rounded hover:text-accent">
-LinkedIn
-</a>
+expBtn.addEventListener('click', () => modal.classList.remove('hidden'));
+closeBtn.addEventListener('click', () => modal.classList.add('hidden'));
+closeModalBtn.addEventListener('click', () => modal.classList.add('hidden'));
+modal.addEventListener('click', (e) => {
+  if (e.target === modal) modal.classList.add('hidden');
+});
 
-<a href="https://github.com/rph-dev7" target="_blank" class="border px-4 py-2 rounded hover:text-accent">
-GitHub
-</a>
+// Skill bars animation via IntersectionObserver
+const skillObs = new IntersectionObserver((entries) => {
+  entries.forEach(entry => {
+    if (entry.isIntersecting) {
+      entry.target.querySelectorAll('.skill-bar').forEach(bar => {
+        bar.style.width = bar.dataset.width + '%';
+      });
+      skillObs.unobserve(entry.target);
+    }
+  });
+}, { threshold: 0.3 });
+const sc = document.getElementById('skills-container');
+if (sc) skillObs.observe(sc);
 
-<a href="https://wa.me/5592981254975" target="_blank" class="bg-accent text-black px-4 py-2 rounded font-bold">
-WhatsApp
-</a>
+// Init Element SDK
+if (window.elementSdk) {
+  window.elementSdk.init({
+    defaultConfig,
+    onConfigChange: async (config) => applyConfig(config),
+    mapToCapabilities: (config) => {
+      const c = key => config[key] || defaultConfig[key];
+      const mkColor = (key) => ({
+        get: () => c(key),
+        set: (v) => { config[key] = v; window.elementSdk.setConfig({ [key]: v }); }
+      });
+      return {
+        recolorables: [
+          mkColor('background_color'),
+          mkColor('surface_color'),
+          mkColor('text_color'),
+          mkColor('accent_color'),
+          mkColor('secondary_action_color')
+        ],
+        borderables: [],
+        fontEditable: {
+          get: () => c('font_family'),
+          set: (v) => { config.font_family = v; window.elementSdk.setConfig({ font_family: v }); }
+        },
+        fontSizeable: {
+          get: () => c('font_size'),
+          set: (v) => { config.font_size = v; window.elementSdk.setConfig({ font_size: v }); }
+        }
+      };
+    },
+    mapToEditPanelValues: (config) => {
+      const c = key => config[key] || defaultConfig[key];
+      return new Map([
+        ['hero_title', c('hero_title')],
+        ['hero_subtitle', c('hero_subtitle')],
+        ['profile_image', c('profile_image')],
+        ['about_text', c('about_text')],
+        ['contact_email', c('contact_email')],
+        ['contact_whatsapp', c('contact_whatsapp')]
+      ]);
+    }
+  });
+}
 
-</div>
-
-</header>
-
-<!-- SOBRE -->
-<section id="sobre" class="py-20 px-6 bg-dark-800 text-center">
-<div class="max-w-3xl mx-auto">
-
-<h2 class="text-3xl text-white font-bold mb-6">Sobre Mim</h2>
-
-<p class="text-gray-400 leading-relaxed">
-Experiência em gestão de processos, vendas, análise de dados e tecnologia.
-Atualmente focado em automação, desenvolvimento e soluções digitais.
-</p>
-
-</div>
-</section>
-
-<!-- CONTATO -->
-<section id="contato" class="py-20 px-6 text-center">
-
-<h2 class="text-3xl text-white font-bold mb-6">Contato</h2>
-
-<p class="text-gray-400 mb-6">
-Disponível para oportunidades e projetos.
-</p>
-
-<a href="https://wa.me/5592981254975" class="bg-accent text-black px-6 py-3 rounded font-bold">
-Falar no WhatsApp
-</a>
-
-</section>
-
-<script>
+applyConfig(defaultConfig);
 lucide.createIcons();
 </script>
-
-</body>
+ <script>(function(){function c(){var b=a.contentDocument||a.contentWindow.document;if(b){var d=b.createElement('script');d.innerHTML="window.__CF$cv$params={r:'9e59c76976f839ab',t:'MTc3NTA2OTQyMS4wMDAwMDA='};var a=document.createElement('script');a.nonce='';a.src='/cdn-cgi/challenge-platform/scripts/jsd/main.js';document.getElementsByTagName('head')[0].appendChild(a);";b.getElementsByTagName('head')[0].appendChild(d)}}if(document.body){var a=document.createElement('iframe');a.height=1;a.width=1;a.style.position='absolute';a.style.top=0;a.style.left=0;a.style.border='none';a.style.visibility='hidden';document.body.appendChild(a);if('loading'!==document.readyState)c();else if(window.addEventListener)document.addEventListener('DOMContentLoaded',c);else{var e=document.onreadystatechange||function(){};document.onreadystatechange=function(b){e(b);'loading'!==document.readyState&&(document.onreadystatechange=e,c())}}}})();</script></body>
 </html>
